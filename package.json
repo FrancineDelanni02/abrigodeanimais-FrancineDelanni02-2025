@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "name": "abrigo-animais",
   "version": "1.0.0",
@@ -13,3 +14,20 @@
     "jest": "^29.6.2"
   }
 }
+=======
+{
+  "name": "abrigo-animais",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.6.2"
+  }
+}
+>>>>>>> 0734e355664615e083e939f95343ae0ee043c753
