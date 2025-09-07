@@ -7,7 +7,17 @@ class Animal{
 
     //Se o bichinho possuir algum requisito especial para os brinquedos, o método deve ser sobrescrito
     verificarBrinquedos(brinquedosPessoa){
-        //verifica a se possui todos os brinquedos que o bichinho gosta e na ordem que ele gosta
+        const brinquedosIguais = [];
+        brinquedosPessoa.forEach(b => {
+            if(this.brinquedos.includes(b))
+                brinquedosIguais.push(b)
+        });
+
+        for(let i=0;i<this.brinquedos.length;i++){
+            if(!this.brinquedos[i] == brinquedosIguais[i])
+                return false
+        }
+        return true
     }
 }
 
