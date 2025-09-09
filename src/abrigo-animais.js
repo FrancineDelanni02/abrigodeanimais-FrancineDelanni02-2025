@@ -3,6 +3,7 @@ import Animal from "./animal.js";
 
 class AbrigoAnimais {
 
+  //definindo dados para trabalhar
   constructor() {
     this.animais = dadosAnimais.map(a => {
       return new Animal(a.nome, a.especie, a.brinquedos);
@@ -10,12 +11,14 @@ class AbrigoAnimais {
     this.brinquedos = ["RATO", "BOLA", "LASER", "CAIXA", "NOVELO", "SKATE"];
   }
 
+  //serve tanto para brinquedos quando para animais
   verificarRepetidos(vetor) {
     const verificacao = new Set(vetor).size == vetor.length;
     return !verificacao;
   }
 
-  verificarAnimais(animaisArr) {
+  //Faz a verificação geral (animais repetidos + animais incorretos)
+  verificarValidadeAnimais(animaisArr) {
     const arrAux = this.animais.map(a => a.nome)
 
     for (let a of animaisArr) {
@@ -25,6 +28,7 @@ class AbrigoAnimais {
     return !this.verificarRepetidos(animaisArr);
   }
 
+  //Faz a verificação geral (brinquedos repetidos + brinquedos incorretos)
   verificarValidadeBrinquedos(brinquedosArr) {
     for (let b of brinquedosArr) {
       if (!this.brinquedos.includes(b))
@@ -33,95 +37,76 @@ class AbrigoAnimais {
     return !this.verificarRepetidos(brinquedosArr)
   }
 
-  adotarGato(brinquedosP1, brinquedosP2, animal, contador) {
-    const p1 = animal.verificarBrinquedos(brinquedosP1);
-    const p2 = animal.verificarBrinquedos(brinquedosP2);
-
-    if ((p1 == p2)) {
-      return (animal.nome + ' - abrigo')
-    } else if (p1 && contador.p1 < 3 ) {
-      contador.p1 = 3
-      return (animal.nome + ' - pessoa 1')
-    } else if (p2 && contador.p2 < 3) {
-      contador.p2 = 3
-      return (animal.nome + ' - pessoa 2')
+  //gatos não ficam junto com outros animais
+  podeAdotar(pessoaObject, animal) {
+    if (animal.especie == "gato" && pessoaObject.countAnimais >  0){
+      return false
+    }else if(animal.especie == "gato" && pessoaObject.countAnimais == 0){
+      pessoaObject.podeAdotarAnimais = false
+      return true
     }
-
-    return animal.nome + " - abrigo"
+    if (animal.nome == "Loco" && pessoaObject.countAnimais > 0) return true;
+    return pessoaObject.podeAdotarAnimais 
   }
 
-  //verifica adotação para qualquer animal que não seja gato
-  adotarAnimal(brinquedosP1, brinquedosP2, animal, contador) {
-    if (animal.nome == 'Loco') {
-      if (contador.p1 > 0 && contador.p2 == 0) {
-        contador.p1++
-        return (animal.nome + ' - pessoa 1')
-      } else if (contador.p2 > 0 && contador.p1 == 0) {
-        contador.p2++
-        return (animal.nome + ' pessoa 2')
+  //Faz designação da pessoa que vai adotar o bichinho
+  adotarAnimal(p1, p2, animal) {
+    const p1podeAdotar = this.podeAdotar(p1, animal) && animal.verificarBrinquedos(p1.brinquedosOferecidos);
+    const p2podeAdotar = this.podeAdotar(p2, animal) && animal.verificarBrinquedos(p2.brinquedosOferecidos);
+
+    if ((p1podeAdotar == p2podeAdotar)) {
+      return (animal.nome + ' - abrigo')
+    } else if (p1podeAdotar) {
+      p1.atualizarContador()
+      return (`${animal.nome} - ${p1.nome}`)
+    } else if (p2podeAdotar) {
+      p2.atualizarContador()
+      return (`${animal.nome} - ${p2.nome}`)
+    }
+    return `${animal.nome} - abrigo`
+  }
+
+  //método geral de encontraPessoa
+  encontraPessoas(brinquedosPessoa1, brinquedosPessoa2, ordemAnimais) {
+    const animaisArr = ordemAnimais.split(",").map(a => a.trim())
+    const p1 = {
+      nome: "pessoa 1",
+      brinquedosOferecidos: brinquedosPessoa1.split(",").map(b => b.trim()),
+      countAnimais: 0,
+      podeAdotarAnimais: true,
+      atualizarContador: function () {
+        this.countAnimais++
+        if (this.countAnimais >= 3) this.podeAdotarAnimais = false
       }
     }
 
-    const p1 = animal.verificarBrinquedos(brinquedosP1);
-    const p2 = animal.verificarBrinquedos(brinquedosP2);
-
-    if ((p1 == p2)) {
-      return (animal.nome + ' - abrigo')
-    } else if (p1 && contador.p1 < 3) {
-      contador.p1++
-      return (animal.nome + ' - pessoa 1')
-    } else if (p2 && contador.p2 < 3) {
-      contador.p2++
-      return (animal.nome + ' - pessoa 2')
+    const p2 = {
+      nome: "pessoa 2",
+      brinquedosOferecidos: brinquedosPessoa2.split(",").map(b => b.trim()),
+      countAnimais: 0,
+      podeAdotarAnimais: true,
+      atualizarContador: function () {
+        this.countAnimais++
+        if (this.countAnimais >= 3) this.podeAdotarAnimais = false
+      }
     }
-    return animal.nome + " - abrigo"
-  }
-
-  encontraPessoas(brinquedosPessoa1, brinquedosPessoa2, ordemAnimais) {
-    const animaisArr = ordemAnimais.split(",").map(a => a.trim())
-    // const p1 = {
-    //   nome: "pessoa 2",
-    //   brinquedosOferecidos : brinquedosPessoa1.split(",").map(b => b.trim()),
-    //   qtdAnimaisAdotados: 0,
-    //   podeAdotarAnimais: true
-    // }
-    
-    // const p2 = {
-    //   nome: "pessoa 2",
-    //   brinquedosOferecidos : brinquedosPessoa2.split(",").map(b => b.trim()),
-    //   qtdAnimaisAdotados: 0,
-    //   podeAdotarAnimais: true
-    // }
-
-    // const brinquedosP1 = brinquedosPessoa1.split(",").map(b => b.trim())
-    // const brinquedosP2 = brinquedosPessoa2.split(",").map(b => b.trim())
-    // const contador = { p1: 0, p2: 0 }
     const lista = [];
 
-    if (!this.verificarAnimais(animaisArr)) {
+    if (!this.verificarValidadeAnimais(animaisArr)) {
       return { erro: "Animal inválido", lista: false }
-    } else if (!this.verificarValidadeBrinquedos(brinquedosP1) || !this.verificarValidadeBrinquedos(brinquedosP2)) {
+    } else if (!this.verificarValidadeBrinquedos(p1.brinquedosOferecidos) || !this.verificarValidadeBrinquedos(p2.brinquedosOferecidos)) {
       return { erro: "Brinquedo inválido", lista: false }
     }
 
     for (let a of animaisArr) {
       let animal = this.animais.find(an => an.nome == a)
-      if (animal.especie == "gato") {
-        lista.push(this.adotarGato(p1.brinquedosOferecidos, p2.brinquedosOferecidos, animal))
-        continue
-      }
-      lista.push(this.adotarAnimal(brinquedosP1, brinquedosP2, animal, contador))
+      lista.push(this.adotarAnimal(p1, p2, animal))
     }
 
-    console.log(lista)
     lista.sort();
     return { erro: false, lista: lista }
   }
 }
-
-//apagar a DUAS linhas depois
-const teste = new AbrigoAnimais();
-teste.encontraPessoas('BOLA,RATO,LASER', 'BOLA,LASER', 'Rex,Fofo,Mimi');
 
 export { AbrigoAnimais as AbrigoAnimais };
 
