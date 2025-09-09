@@ -103,15 +103,10 @@ class AbrigoAnimais {
       lista.push(this.adotarAnimal(p1, p2, animal))
     }
 
-    console.log(lista)
     lista.sort();
     return { erro: false, lista: lista }
   }
 }
-
-//apagar a DUAS linhas depois
-const teste = new AbrigoAnimais();
-teste.encontraPessoas('RATO,BOLA,LASER', 'BOLA', 'Rex, Mimi');
 
 export { AbrigoAnimais as AbrigoAnimais };
 
