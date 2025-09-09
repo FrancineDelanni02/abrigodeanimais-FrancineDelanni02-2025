@@ -1,7 +1,7 @@
 const dadosAnimais = [
     {
     nome: "Rex",
-    especie: "cão",
+    especie: "cao",
     brinquedos: ["RATO", "BOLA"]
   },
   {
@@ -21,12 +21,12 @@ const dadosAnimais = [
   },
   {
     nome: "Bola",
-    especie: "cão",
+    especie: "cao",
     brinquedos: ["CAIXA", "NOVELO"]
   },
   {
     nome: "Bebe",
-    especie: "cão",
+    especie: "cao",
     brinquedos: ["LASER", "RATO", "BOLA"]
   },
   {
