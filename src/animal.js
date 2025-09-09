@@ -1,20 +1,20 @@
-class Animal{
-    constructor(nome, especie,brinquedos){
+class Animal {
+    constructor(nome, especie, brinquedos) {
         this.nome = nome;
         this.especie = especie;
         this.brinquedos = brinquedos;
     }
 
-    //Se o bichinho possuir algum requisito especial para os brinquedos, o método deve ser sobrescrito
-    verificarBrinquedos(brinquedosPessoa){
+    //Se retornar true se todos os brinquedos foram apresentados e na ordem
+    verificarBrinquedos(brinquedosPessoa) {
         const brinquedosIguais = [];
         brinquedosPessoa.forEach(b => {
-            if(this.brinquedos.includes(b))
+            if (this.brinquedos.includes(b))
                 brinquedosIguais.push(b)
         });
 
-        for(let i=0;i<this.brinquedos.length;i++){
-            if(!this.brinquedos[i] == brinquedosIguais[i])
+        for (let i = 0; i < this.brinquedos.length; i++) {
+            if (this.brinquedos[i] != brinquedosIguais[i]) 
                 return false
         }
         return true
