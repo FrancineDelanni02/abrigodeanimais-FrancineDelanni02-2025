@@ -1,5 +1,6 @@
 import dadosAnimais from "./dadosAnimais.js";
 import Animal from "./Animal.js";
+import Pessoa from "./Pessoa.js";
 
 class AbrigoAnimais {
 
@@ -69,27 +70,8 @@ class AbrigoAnimais {
   //método geral de encontraPessoa
   encontraPessoas(brinquedosPessoa1, brinquedosPessoa2, ordemAnimais) {
     const animaisArr = ordemAnimais.split(",").map(a => a.trim())
-    const p1 = {
-      nome: "pessoa 1",
-      brinquedosOferecidos: brinquedosPessoa1.split(",").map(b => b.trim()),
-      countAnimais: 0,
-      podeAdotarAnimais: true,
-      atualizarContador: function () {
-        this.countAnimais++
-        if (this.countAnimais >= 3) this.podeAdotarAnimais = false
-      }
-    }
-
-    const p2 = {
-      nome: "pessoa 2",
-      brinquedosOferecidos: brinquedosPessoa2.split(",").map(b => b.trim()),
-      countAnimais: 0,
-      podeAdotarAnimais: true,
-      atualizarContador: function () {
-        this.countAnimais++
-        if (this.countAnimais >= 3) this.podeAdotarAnimais = false
-      }
-    }
+    const p1 = new Pessoa("pessoa 1",brinquedosPessoa1)
+    const p2 = new Pessoa("pessoa 2",brinquedosPessoa2)
     const lista = [];
 
     if (!this.verificarValidadeAnimais(animaisArr)) {
@@ -104,9 +86,12 @@ class AbrigoAnimais {
     }
 
     lista.sort();
+    console.log(lista)
     return { erro: false, lista: lista }
   }
 }
 
-export { AbrigoAnimais as AbrigoAnimais };
+const teste = new AbrigoAnimais();
+teste.encontraPessoas('BOLA,LASER','BOLA,NOVELO,RATO,LASER', 'Mimi,Fofo,Rex,Bola')
 
+export { AbrigoAnimais as AbrigoAnimais };
