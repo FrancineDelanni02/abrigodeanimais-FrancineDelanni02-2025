@@ -1,5 +1,5 @@
 import dadosAnimais from "./dadosAnimais.js";
-import Animal from "./animal.js";
+import Animal from "./Animal.js";
 
 class AbrigoAnimais {
 
