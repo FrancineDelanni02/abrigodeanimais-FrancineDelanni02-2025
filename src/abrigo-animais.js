@@ -1,9 +1,9 @@
 import dadosAnimais from "./dadosAnimais.js";
 import Animal from "./Animal.js";
+import Pessoa from "./Pessoa.js";
 
 class AbrigoAnimais {
 
-  //definindo dados para trabalhar
   constructor() {
     this.animais = dadosAnimais.map(a => {
       return new Animal(a.nome, a.especie, a.brinquedos);
@@ -11,7 +11,6 @@ class AbrigoAnimais {
     this.brinquedos = ["RATO", "BOLA", "LASER", "CAIXA", "NOVELO", "SKATE"];
   }
 
-  //serve tanto para brinquedos quando para animais
   verificarRepetidos(vetor) {
     const verificacao = new Set(vetor).size == vetor.length;
     return !verificacao;
@@ -49,7 +48,6 @@ class AbrigoAnimais {
     return pessoaObject.podeAdotarAnimais 
   }
 
-  //Faz designação da pessoa que vai adotar o bichinho
   adotarAnimal(p1, p2, animal) {
     const p1podeAdotar = this.podeAdotar(p1, animal) && animal.verificarBrinquedos(p1.brinquedosOferecidos);
     const p2podeAdotar = this.podeAdotar(p2, animal) && animal.verificarBrinquedos(p2.brinquedosOferecidos);
@@ -66,30 +64,10 @@ class AbrigoAnimais {
     return `${animal.nome} - abrigo`
   }
 
-  //método geral de encontraPessoa
   encontraPessoas(brinquedosPessoa1, brinquedosPessoa2, ordemAnimais) {
     const animaisArr = ordemAnimais.split(",").map(a => a.trim())
-    const p1 = {
-      nome: "pessoa 1",
-      brinquedosOferecidos: brinquedosPessoa1.split(",").map(b => b.trim()),
-      countAnimais: 0,
-      podeAdotarAnimais: true,
-      atualizarContador: function () {
-        this.countAnimais++
-        if (this.countAnimais >= 3) this.podeAdotarAnimais = false
-      }
-    }
-
-    const p2 = {
-      nome: "pessoa 2",
-      brinquedosOferecidos: brinquedosPessoa2.split(",").map(b => b.trim()),
-      countAnimais: 0,
-      podeAdotarAnimais: true,
-      atualizarContador: function () {
-        this.countAnimais++
-        if (this.countAnimais >= 3) this.podeAdotarAnimais = false
-      }
-    }
+    const p1 = new Pessoa("pessoa 1",brinquedosPessoa1)
+    const p2 = new Pessoa("pessoa 2",brinquedosPessoa2)
     const lista = [];
 
     if (!this.verificarValidadeAnimais(animaisArr)) {
@@ -109,4 +87,3 @@ class AbrigoAnimais {
 }
 
 export { AbrigoAnimais as AbrigoAnimais };
-
